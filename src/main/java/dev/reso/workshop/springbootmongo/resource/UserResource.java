@@ -33,8 +33,8 @@ public class UserResource {
     public ResponseEntity<UserDTO> insert(@RequestBody UserDTO objDto){
         User user = service.fromDTO(objDto);
         user = service.insert(user);
-        objDto.setId(user.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(objDto);
+        UserDTO userDto = new UserDTO(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
 }
