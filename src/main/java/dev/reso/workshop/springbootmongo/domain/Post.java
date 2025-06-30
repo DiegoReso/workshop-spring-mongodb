@@ -1,5 +1,6 @@
 package dev.reso.workshop.springbootmongo.domain;
 
+import dev.reso.workshop.springbootmongo.dto.PostDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,13 @@ public class Post {
     private String title;
     private String body;
     private User author;
+
+
+    public Post(PostDTO post) {
+        id = post.getId();
+        date = post.getDate();
+        title = post.getTitle();
+        body = post.getBody();
+        author = new User(post.getAuthor());
+    }
 }
