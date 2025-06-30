@@ -31,7 +31,7 @@ public class UserResource {
 
     @PostMapping
     public ResponseEntity<UserDTO> insert(@RequestBody UserDTO objDto){
-        User user = service.fromDTO(objDto);
+        User user = new User(objDto);
         user = service.insert(user);
         UserDTO userDto = new UserDTO(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
@@ -45,7 +45,7 @@ public class UserResource {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO objDto, @PathVariable String id){
-        User user = service.fromDTO(objDto);
+        User user = new User(objDto);
         user.setId(id);
         service.update(user,id);
         UserDTO userDTO = new UserDTO(user);
