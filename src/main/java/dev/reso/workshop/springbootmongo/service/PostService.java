@@ -20,10 +20,14 @@ public class PostService {
     }
 
     public List<Post> findByTitle(String title){
-        return repository.findPostByTitleContainingIgnoreCase(title);
+        return repository.findPostsByTitleContainingIgnoreCase(title);
     }
 
     public Post findById(String id) {
         return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found"));
+    }
+
+    public List<Post> findByComment(String comment){
+        return repository.findByComments_TextContainingIgnoreCase(comment);
     }
 }
