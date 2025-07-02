@@ -32,6 +32,14 @@ public class PostResource {
         return ResponseEntity.ok(postsDto);
     }
 
+    @GetMapping("/commentsearch")
+    public ResponseEntity<List<PostDTO>> findByComment(@RequestParam(value = "comment", defaultValue = "") String comment){
+        String titleDecode = URL.decodeParam(comment);
+        List<Post> posts = service.findByComment(titleDecode);
+        List<PostDTO> postsDto = posts.stream().map(PostDTO::new).toList();
+        return ResponseEntity.ok(postsDto);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> findById(@PathVariable String id){
         PostDTO postDTO = new PostDTO(service.findById(id));
