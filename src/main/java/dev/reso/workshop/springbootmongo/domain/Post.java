@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +23,7 @@ public class Post {
     private String title;
     private String body;
     private User author;
+    private List<Comment> comments = new ArrayList<>();
 
 
     public Post(PostDTO post) {
@@ -29,5 +32,6 @@ public class Post {
         title = post.getTitle();
         body = post.getBody();
         author = new User(post.getAuthor());
+        comments = post.getComments().stream().map(Comment::new).toList();
     }
 }
