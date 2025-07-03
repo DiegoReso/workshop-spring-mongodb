@@ -40,4 +40,22 @@ public class PostService {
         maxDate = new Date(maxDate.getTime() + 24 * 60 * 60 * 1000);
         return repository.fullSearch(text,minDate,maxDate);
     }
+
+    public Post update(Post postRequest, String id){
+        Post post = findById(id);
+        post.setDate(postRequest.getDate());
+        post.setTitle(postRequest.getTitle());
+        post.setBody(postRequest.getBody());
+        post.setAuthor(postRequest.getAuthor());
+        return repository.save(post);
+    }
+
+    public Post insert(Post post){
+        return repository.insert(post);
+    }
+
+    public void delete(String id) {
+        findById(id);
+        repository.deleteById(id);
+    }
 }
