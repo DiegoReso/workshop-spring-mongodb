@@ -5,6 +5,7 @@ import dev.reso.workshop.springbootmongo.dto.PostDTO;
 import dev.reso.workshop.springbootmongo.resource.util.URL;
 import dev.reso.workshop.springbootmongo.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,4 +64,28 @@ public class PostResource {
         PostDTO postDTO = new PostDTO(service.findById(id));
         return ResponseEntity.ok(postDTO);
     }
+
+    @PostMapping
+    public ResponseEntity<PostDTO> insertPost(@RequestBody PostDTO postDTO){
+        Post post = new Post(postDTO);
+        post = service.insert(post);
+        PostDTO newDto = new PostDTO(post);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PostDTO> update(@RequestBody PostDTO postDTO, @PathVariable String id){
+        Post post = new Post(postDTO);
+        post = service.update(post,id);
+        PostDTO newDto = new PostDTO(post);
+        return ResponseEntity.ok(newDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
