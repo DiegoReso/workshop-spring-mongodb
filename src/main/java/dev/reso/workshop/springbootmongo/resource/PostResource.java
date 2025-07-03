@@ -40,6 +40,13 @@ public class PostResource {
         return ResponseEntity.ok(postsDto);
     }
 
+    @GetMapping("/authorsearch")
+    public ResponseEntity<List<PostDTO>> findByAuthor(@RequestParam(value = "author", defaultValue = "") String author){
+        String authorDecode = URL.decodeParam(author);
+        List<PostDTO> postDTOS = service.findByAuthor(authorDecode).stream().map(PostDTO::new).toList();
+        return ResponseEntity.ok(postDTOS);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> findById(@PathVariable String id){
         PostDTO postDTO = new PostDTO(service.findById(id));
