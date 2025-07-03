@@ -2,14 +2,13 @@ package dev.reso.workshop.springbootmongo.resource;
 
 import dev.reso.workshop.springbootmongo.domain.Post;
 import dev.reso.workshop.springbootmongo.dto.PostDTO;
-import dev.reso.workshop.springbootmongo.dto.UserDTO;
 import dev.reso.workshop.springbootmongo.resource.util.URL;
 import dev.reso.workshop.springbootmongo.service.PostService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -43,8 +42,20 @@ public class PostResource {
     @GetMapping("/authorsearch")
     public ResponseEntity<List<PostDTO>> findByAuthor(@RequestParam(value = "author", defaultValue = "") String author){
         String authorDecode = URL.decodeParam(author);
-        List<PostDTO> postDTOS = service.findByAuthor(authorDecode).stream().map(PostDTO::new).toList();
-        return ResponseEntity.ok(postDTOS);
+        List<PostDTO> postDTO = service.findByAuthor(authorDecode).stream().map(PostDTO::new).toList();
+        return ResponseEntity.ok(postDTO);
+    }
+
+    @GetMapping("/fullsearch")
+    public ResponseEntity<List<PostDTO>> fullSearch(
+            @RequestParam(value = "text", defaultValue = "") String text,
+            @RequestParam(value = "minDate", defaultValue = "")String minDate,
+            @RequestParam(value = "maxDate",  defaultValue = "")String maxDate){
+        text = URL.decodeParam(text);
+        Date min = URL.convertDate(minDate, new Date(0L));
+        Date max = URL.convertDate(maxDate, new Date());
+        List<PostDTO> postsDTO = service.fullSearch(text, min, max).stream().map(PostDTO::new).toList();
+        return ResponseEntity.ok(postsDTO);
     }
 
     @GetMapping("/{id}")
