@@ -30,4 +30,8 @@ public class PostService {
     public List<Post> findByComment(String comment){
         return repository.findByComments_TextContainingIgnoreCase(comment);
     }
+
+    public List<Post> findByAuthor(String author){
+        return repository.findByAuthor(author);
+    }
 }
